@@ -1,0 +1,65 @@
+const form = document.querySelector('form');
+const input = document.querySelector('#generator');
+const btn = document.querySelector('#add');
+const results = document.querySelector('.results');
+const list = document.querySelector('.results ul');
+
+const arrayTodo = JSON.parse(localStorage.getItem('completedDo')) || [];
+
+for(let i = 0; i < arrayTodo.length; i++){
+    const newTodo = document.createElement('li');
+    const checkBox = document.createElement('button');
+    checkBox.textContent = "delete";
+    newTodo.append(checkBox);
+
+
+    newTodo.innerText = arrayTodo[i].todo;
+    newTodo.isCompleted = arrayTodo[i].isCompleted ? true : false;
+    if(arrayTodo.isCompleted = newTodo.isCompleted){
+        newTodo.classList.toggle('completed');
+    }
+    list.append(newTodo);
+}
+
+form.addEventListener('submit', function(event){
+    event.preventDefault();
+    let li = document.createElement('li');
+    const check = document.createElement('button');
+
+    li.innerText = input.value;
+    li.isCompleted = false;
+    check.textContent = "delete";
+    form.reset();
+
+    list.append(li);
+    li.append(check);
+
+    arrayTodo.push({todo: li.innerText, isCompleted: false});
+    localStorage.setItem("todos", JSON.stringify(arrayTodo));
+});
+
+    results.addEventListener('click', function(event){
+        console.log(event.target);
+        let item = event.target;
+        if(event.target.tagName === "LI"){
+            item.classList.toggle("completed");
+        }
+        else if(event.target.tagName === "BUTTON"){
+            event.target.parentElement.remove();
+        }
+        if(!item.isCompleted){
+            item.isCompleted = true;
+        }
+        else{
+            item.isCompleted = false;
+        }
+
+        for(item in arrayTodo){
+            if(arrayTodo[item].task === item.innerText){
+                arrayTodo[item].isCompleted = !arrayTodo[item].isCompleted;
+                localStorage.setItem("completedDo", JSON.stringify(arrayTodo));  
+            }
+        }
+    });
+
+    localStorage.clear();
