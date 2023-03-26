@@ -1,0 +1,145 @@
+const gameCanvas = document.getElementById('game');
+const arrayCards = [];
+const clicksCount = [];
+let noClicking = false;
+const canvas = document.getElementById('start');
+let numCards = arrayCards.length;
+let card1 = null;
+let card2 = null;
+let score = 0;
+let attempts = 0;
+let cardsFlipped = 0;
+let cardsCreated = 0;
+let startForm = document.querySelector('.start');
+let lowScore = localStorage.getItem('low-score');
+const COLORS = [
+    "red",
+    "blue",
+    "green",
+    "orange",
+    "purple",
+    "red",
+    "blue",
+    "green",
+    "orange",
+    "purple"
+  ];
+
+
+  
+  const btn = document.querySelector('form input');
+
+
+  function shuffleColors(array){ 
+    let counter = array.length;
+  
+    // While there are elements in the array
+    while (counter > 0) {
+      // Pick a random index
+      let index = Math.floor(Math.random() * counter);
+  
+      // Decrease counter by 1
+      counter--;
+  
+      // And swap the last element with it
+      let temp = array[counter];
+      array[counter] = array[index];
+      array[index] = temp;
+    }
+  
+    return array;
+};
+
+let shuffledColors = shuffleColors(COLORS);
+btn.addEventListener('click', startGame);
+
+function createCards(colorArray){
+    for(let color of colorArray){
+        newCard = document.createElement('div');
+        newCard.classList.add(color);
+        newCard.addEventListener('click', handleClick);
+        gameCanvas.append(newCard);
+        arrayCards.push(newCard);
+        return newCard
+    }
+};    
+
+function handleClick(clickedCard){
+    console.log(clickedCard.target);
+    let cardClicked = clickedCard.target;
+    let colorClass = clickedCard.target.className;
+    cardClicked.style.backgroundColor = colorClass;
+    if(noClicking){
+        return;
+        }
+        if(cardClicked.classList.contains('flipped')){
+          return;
+        }
+        if(!cardClicked.classList.contains('flipped')){
+            cardClicked.classList.add('flipped');
+            console.log(cardClicked.className);
+        }
+        if(!card1 || !card2){
+           cardClicked.classList.add('flipped');
+           card1 = card1 || cardClicked;
+           card2 = cardClicked === card1 ? null : cardClicked;
+        }
+        if(card1 && card2){
+            noClicking = true;
+        
+            if(card1.className[0] === card2.className[0]){
+                cardsFlipped += 2;
+                card1.removeEventListener('click', handleClick)
+                card2.removeEventListener('click', handleClick)
+                card1 = null;
+                card2 = null;
+                noClicking = false;
+            }else{
+                setTimeout(function() {
+                card1.style.backgroundColor = "";
+                card2.style.backgroundColor = "";
+                card1.classList.remove("flipped");
+                card2.classList.remove("flipped");
+                card1 = null;
+                card2 = null;
+                noClicking = false;
+            }, 1000);
+            }
+        }
+        if (cardsFlipped === COLORS.length) alert("game over!");
+
+    }
+
+function startGame(event){
+        event.preventDefault()
+        if(event.target === btn){
+            cardsCreated +=1;
+            if(cardsCreated <= 10){
+                createCards(shuffledColors);
+            }
+            else{
+                btn.removeEventListener('click', startGame);
+            }
+        }
+        else{
+            console.log("you have to click submit")
+        }
+
+};
+
+function arrayOfClicks (){
+        gameCanvas.addEventListener('click', function(event){
+            let target = event.target;
+            let clickCount = 0;
+            if(target.className !== null){
+                clickCount += 1;
+            }
+            console.log(clickCount);
+            clicksCount.push(clickCount);
+        })
+    };
+    
+
+function endGame(){
+
+};
