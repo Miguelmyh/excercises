@@ -1,0 +1,11 @@
+man stands for manual command, you can scroll with the enter key and quit with the q key 
+long listing format, -a flag lists all of the documents including hidden 
+ctrl and arrow key 
+ctrl e
+ctrl a
+ctrl w
+shell is the program that runs in the terminal, terminals use shells like bash
+one that starts at the directory and shows the full path to the file
+contextual parent to file, or present working directory 
+flags are options that modify commands: -l -L, -1; -a; -r
+the f flag ignores nonexistent files, the r flag removes directories and their contents
