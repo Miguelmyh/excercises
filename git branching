@@ -1,0 +1,5 @@
+git branch or git checkout -b
+fast-forward is when the files have the same repositories but have added more repositories following the same timeline(chronologically). In  the other recursive merging are not chronological
+git checkout 
+git command -d or git command -D
+when repositories make commits of a file after the branching of the soon-to-be merged branch, which also has new commits.Meaning that the new commits are different on each branch  and will have to select manually
